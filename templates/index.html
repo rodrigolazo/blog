@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style type="text/css">
+    #div_id_tags>div {
+        max-height: 100px;
+        overflow-y: scroll;
+        border: 1px solid #888;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+</style>
+<div class="main-container">
+    <h1>Create Post</h1>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        {{form|crispy}}
+        <input class="btn btn-primary" type="submit" value="Submit Post">
+
+    </form>
+
+</div>
+<section class="s1">
+    <div class="main-container">
+        <h3 style="text-align: center;">All Projects</h3>
+
+        <div class="post-wrapper">
+            {% for post in posts %}
+            <div>
+                <div class="post">
+                    <img class="thumbnail" src="{{post.image.url}}">
+                    <div class="post-preview">
+                        <h6 class="post-title">{{post.title}}</h6>
+                        {% for tag in post.tags.all %}
+                        <span class="tag">{{tag}}</span>
+                        {% endfor %}
+                        <hr>
+                        <a href="{%  url 'post' post.id %}">Read More</a>
+                        <a class="btn btn-sm btn-primary" href="{% url 'editUrl' post.id %}">Edit</a>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+</section>
+
+{% endblock content %}
